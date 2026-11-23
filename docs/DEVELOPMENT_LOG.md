@@ -107,3 +107,37 @@ Git Sync (app.gitbook.com) reconnaissait le dépôt et la branche `develop`, mai
 ### Problèmes rencontrés
 
 - Ni Python ni Node.js sur le poste pour valider le schéma : validation faite avec une bibliothèque Java dans un projet temporaire, sans ajouter de dépendance au projet.
+
+---
+
+## 2026-11-23 — Phase 1.2 : gestion de la configuration YAML
+
+**Branche :** `feature/phase-1.2-config` (depuis `develop`, `e3e100e`)
+
+### Objectif
+
+Gestionnaire de configuration YAML modulaire : création des fichiers par défaut, chargement, validation stricte, rechargement transactionnel, messages personnalisables, commande `/sas reload`, tests et documentation. Aucune fonctionnalité de gameplay.
+
+### État initial constaté
+
+- `develop` contient 3 commits `GITBOOK-SITE` créés par GitBook : `gitbook-docs.yaml` réécrit sans commentaires ni guillemets, et `language: fr` pour l'espace (le contenu du wiki est en anglais). Clé `space-official-wiki` conservée. Non modifié dans cette phase : à arbitrer par le responsable du projet.
+- `checkDocs` opérationnel (13 pages, 0 commande, 0 permission).
+
+### Réalisé
+
+- Packages `config`, `command`, `logging` (voir `docs/ARCHITECTURE.md`).
+- 5 fichiers YAML par défaut ; les 3 fichiers réservés ne contiennent que `config-version: 1` et les règles officielles en commentaire.
+- Politique explicite : valeur invalide → erreur (jamais remplacée) ; valeur optionnelle absente → défaut + avertissement ; message absent → message intégré + avertissement ; clé inconnue → avertissement, ignorée, conservée.
+- `/stealaspawner reload` (alias `/sas`), permission `stealaspawner.admin.reload` (`op`).
+- GitBook : 5 nouvelles pages, 10 pages mises à jour, `SUMMARY.md` étendu (18 pages).
+
+### Vérifications
+
+- `./gradlew clean build` : BUILD SUCCESSFUL ; 47 tests, 0 échec ; `checkDocs` : 29 fichiers Markdown, 126 liens locaux, 18 pages, 1 commande, 1 permission.
+- Serveur Paper 1.21.11 build 132 réel : création des 5 fichiers, reload valide, reload invalide (ancien état conservé, prouvé par le préfixe), messages d'usage et d'erreur, reload après correction, démarrage avec configuration invalide (plugin désactivé, fichier intact).
+
+### Problèmes rencontrés
+
+- MockBukkit nomme le dossier de données `<nom>-<version>` : test de démarrage invalide adapté.
+- La console Paper n'affiche pas les niveaux inférieurs à INFO : le mode `DEBUG` écrit des lignes `[DEBUG]` au niveau INFO.
+- Quand le plugin est désactivé (configuration invalide au démarrage), Bukkit répond lui-même à `/sas` (« plugin is disabled ») : comportement standard, documenté dans le dépannage.
