@@ -1,0 +1,8 @@
+name: StealASpawner
+version: '${version}'
+main: com.stealaspawner.StealASpawnerPlugin
+api-version: '1.21'
+description: Mini-jeu Steal a Spawner - production de spawners et vol entre joueurs.
+authors: [Lysty01]
+website: https://github.com/Lysty01/StealASpawner
+softdepend: [LuckPerms, Oraxen]
