@@ -1,6 +1,20 @@
 # Documentation utilisateur (GitBook) — règles de maintenance
 
-Le wiki officiel **Steal a Spawner — Official Wiki** est rédigé en anglais dans le dossier [`gitbook/`](../gitbook/README.md) de ce dépôt. Le dépôt GitHub est la **source officielle** : GitBook ne fait qu'afficher son contenu via Git Sync (configuration : [`.gitbook.yaml`](../.gitbook.yaml)).
+Le wiki officiel **Steal a Spawner — Official Wiki** est rédigé en anglais dans le dossier [`gitbook/`](../gitbook/README.md) de ce dépôt. Le dépôt GitHub est la **source officielle** : GitBook ne fait qu'afficher son contenu via Git Sync.
+
+## Configuration Git Sync
+
+GitBook lit trois fichiers, dans cet ordre ([documentation officielle](https://gitbook.com/docs/docs-as-code/git-sync/content-configuration)) :
+
+| Fichier | Rôle | Valeur dans ce dépôt |
+|---|---|---|
+| [`gitbook-docs.yaml`](../gitbook-docs.yaml) | **Site** : titre et structure ; associe chaque espace à un dossier du dépôt (`content.directory`). Placé dans le *Project directory* de Git Sync (racine du dépôt par défaut). | Un espace `space-official-wiki`, associé à la racine `./` |
+| [`.gitbook.yaml`](../.gitbook.yaml) | **Espace** : dossier des pages (`root`), page d'accueil, sommaire. Placé dans le dossier associé à l'espace. | `root: ./gitbook/` |
+| [`gitbook/SUMMARY.md`](../gitbook/SUMMARY.md) | **Navigation** de l'espace | 13 pages |
+
+Résolution : `gitbook-docs.yaml` → espace associé à `./` → `./.gitbook.yaml` → `gitbook/README.md` et `gitbook/SUMMARY.md`.
+
+⚠️ Ne jamais changer la `key` d'un espace une fois le site en ligne : GitBook créerait un nouvel espace, avec un nouvel identifiant. Pour renommer le wiki, modifier `title` ; pour changer son URL, modifier `path`.
 
 ## Règles permanentes
 
@@ -52,9 +66,12 @@ La tâche `checkDocs` ([`gradle/docs-check.gradle.kts`](../gradle/docs-check.gra
 - un lien Markdown local (ou une image) pointe vers un fichier inexistant, dans n'importe quel `.md` du dépôt ;
 - une page listée dans `gitbook/SUMMARY.md` n'existe pas ;
 - une page de `gitbook/` est absente de `SUMMARY.md` ;
-- `.gitbook.yaml` pointe vers un dossier, un `README` ou un `SUMMARY` inexistant ;
+- `gitbook-docs.yaml` est absent, ou incohérent : `$schema` manquant, `site`/`title`/`structure` manquants, clé en double, aucun espace `default: true`, `content.directory` inexistant ou contenant `..` ;
+- le `.gitbook.yaml` du dossier associé à l'espace pointe vers un dossier, un `README` ou un `SUMMARY` inexistant, ou un `.gitbook.yaml` à la racine serait ignoré par GitBook ;
 - une commande déclarée dans `plugin.yml` n'est pas documentée dans `gitbook/commands/` ;
 - une permission déclarée dans `plugin.yml` n'est pas documentée dans `gitbook/permissions/README.md`.
+
+La validation complète de `gitbook-docs.yaml` contre le [schéma officiel](https://api.gitbook.com/gitbook-docs.yaml) est faite par GitBook à chaque import. En cas de modification du fichier, la valider aussi localement contre ce schéma (JSON Schema 2020-12) avant de pousser.
 
 ## Thème (à configurer dans GitBook)
 

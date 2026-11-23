@@ -54,7 +54,8 @@ Un contrôle automatique (`./gradlew checkDocs`, inclus dans `./gradlew build` e
 
 | Fichier | Rôle |
 |---|---|
-| `.gitbook.yaml` | Indique à GitBook que le wiki est dans `gitbook/` |
+| `gitbook-docs.yaml` | Configuration du site GitBook : un espace associé à la racine du dépôt (ajouté par le correctif, § 13) |
+| `.gitbook.yaml` | Configuration de l'espace : les pages sont dans `gitbook/` |
 | `gradle/docs-check.gradle.kts` | Tâche `checkDocs` |
 | `build.gradle.kts` | Applique `docs-check.gradle.kts` (une ligne ajoutée) |
 | `docs/DOCUMENTATION.md` | Règles permanentes de maintenance, conventions, thème souhaité |
@@ -103,6 +104,7 @@ Seules deux commandes **natives de Paper** sont citées (`/plugins`, `/version S
 | Liens Markdown et images locaux de **tous** les `.md` du dépôt | ✅ 73 liens, 0 cassé |
 | Pages listées dans `SUMMARY.md` existantes | ✅ |
 | Toutes les pages de `gitbook/` présentes dans `SUMMARY.md` | ✅ 13 sur 13 |
+| `gitbook-docs.yaml` présent et cohérent (§ 13) | ✅ |
 | `.gitbook.yaml` cohérent (racine, readme, summary) | ✅ |
 | Commandes de `plugin.yml` documentées dans `gitbook/commands/` | ✅ (0 commande) |
 | Permissions de `plugin.yml` documentées dans `gitbook/permissions/` | ✅ (0 permission) |
@@ -157,7 +159,7 @@ Ces étapes demandent ton compte GitBook et ton compte GitHub : je ne peux pas l
    - `develop` pour suivre le développement en cours,
    - ou `main` pour un wiki qui ne montre que les versions validées (recommandé quand le serveur sera public).
 6. ⚠️ **Sens de la première synchronisation : GitHub → GitBook.** Ne pas choisir GitBook → GitHub, sinon l'espace vide écraserait les pages du dépôt.
-7. GitBook lit automatiquement `.gitbook.yaml` et prend le dossier `gitbook/` comme racine. Vérifier que les 13 pages et le sommaire apparaissent.
+7. Laisser le *Project directory* vide (racine du dépôt). GitBook lit `gitbook-docs.yaml`, puis `.gitbook.yaml`, et prend le dossier `gitbook/` comme racine des pages. Vérifier que les 13 pages et le sommaire apparaissent. *(Étape corrigée : voir § 13.)*
 8. **Customize** : mode sombre, couleur principale violette (`#8B5CF6`), logo et favicon.
 9. **Publish → Publish to the web** pour rendre le wiki public. Le domaine personnalisé se règle dans les paramètres du site, selon l'offre GitBook.
 10. Me prévenir : je vérifierai qu'une modification poussée sur GitHub apparaît bien dans GitBook avant de considérer le wiki comme publié.
@@ -194,3 +196,83 @@ Ces étapes demandent ton compte GitBook et ton compte GitHub : je ne peux pas l
 1. **Relire et valider** la Pull Request `docs/gitbook-init` → `develop`.
 2. **Connecter GitBook** en suivant le § 9, après la fusion.
 3. Envoyer les instructions de la **phase 1.2**.
+
+---
+
+## 13. Correctif : synchronisation GitBook (`fix/gitbook-sync`)
+
+### Symptôme
+
+Lors de la configuration de Git Sync sur app.gitbook.com, le dépôt `Lysty01/StealASpawner` et la branche `develop` étaient reconnus, mais GitBook affichait :
+
+```
+gitbook-docs.yaml does not exist on this branch.
+```
+
+### Cause
+
+La version actuelle de Git Sync configure un **site** entier à partir d'un fichier `gitbook-docs.yaml`, placé dans le *Project directory* (la racine du dépôt par défaut). Ce fichier associe chaque espace à un dossier du dépôt. `.gitbook.yaml`, préparé lors de l'initialisation, ne configure qu'**un seul espace**. Il est toujours utilisé, mais il ne remplace pas `gitbook-docs.yaml`.
+
+### Sources vérifiées (23/11/2026)
+
+| Source | Contenu utilisé |
+|---|---|
+| [Content configuration](https://gitbook.com/docs/docs-as-code/git-sync/content-configuration) (documentation officielle) | Rôle des trois fichiers, emplacement de `gitbook-docs.yaml`, clés stables, ordre d'application (`gitbook-docs.yaml` puis `.gitbook.yaml`), cas « espace associé à la racine + `.gitbook.yaml` avec `root: ./docs/` » |
+| [Schéma officiel](https://api.gitbook.com/gitbook-docs.yaml) (JSON Schema 2020-12, dernière mise à jour le 23/11/2026) | Champs obligatoires (`site.title`, `site.structure`, et pour un espace : `type`, `key`, `title`, `path`, `content.directory`), espaces autorisés à la racine de `structure` si le site n'a pas de section, un seul espace `default: true` |
+
+### Solution
+
+Nouveau fichier `gitbook-docs.yaml` à la racine :
+
+```yaml
+$schema: https://api.gitbook.com/gitbook-docs.yaml
+site:
+  title: "Steal a Spawner — Official Wiki"
+  structure:
+    - type: space
+      key: space-official-wiki
+      title: "Official Wiki"
+      path: wiki
+      default: true
+      content:
+        directory: ./
+        language: en
+```
+
+L'espace est associé à la racine du dépôt (`./`). GitBook y lit `.gitbook.yaml`, **inchangé** (`root: ./gitbook/`), puis `gitbook/README.md` et `gitbook/SUMMARY.md`. Ce montage correspond au cas documenté par GitBook, et il évite de déplacer ou de supprimer le moindre fichier.
+
+| Élément | Statut |
+|---|---|
+| 13 pages de `gitbook/` | ✅ Inchangées |
+| `gitbook/SUMMARY.md` | ✅ Inchangé |
+| Liens | ✅ Liens du wiki inchangés ; 75 liens locaux valides dans le dépôt (2 nouveaux dans `docs/DOCUMENTATION.md`) |
+| `.gitbook.yaml` | ✅ Inchangé |
+| Code Java | ✅ Non modifié |
+
+### `checkDocs` adapté
+
+L'adaptation était nécessaire : l'ancien contrôle ne lisait que `.gitbook.yaml` et n'aurait pas détecté l'absence de `gitbook-docs.yaml`, qui bloquait GitBook. Il suit maintenant la même résolution que GitBook et vérifie :
+
+- la présence de `gitbook-docs.yaml` et de son `$schema` officiel ;
+- `site`, `site.title` et `site.structure` ;
+- l'unicité des clés et la présence d'un espace `default: true` ;
+- que chaque `content.directory` existe et ne contient pas `..` ;
+- le `.gitbook.yaml` du dossier associé, et l'absence d'un `.gitbook.yaml` qui serait ignoré.
+
+### Vérifications
+
+| Vérification | Résultat |
+|---|---|
+| Validation de `gitbook-docs.yaml` contre le schéma officiel (networknt json-schema-validator 1.5.9, projet jetable hors dépôt) | ✅ **VALID** |
+| Contre-exemples soumis au même validateur (espace sans `path` ; propriété inconnue `site.root`) | ✅ Rejetés tous les deux |
+| `checkDocs` sur la configuration réelle | ✅ OK |
+| `checkDocs`, tests négatifs : fichier absent ; dossier inexistant, aucun espace par défaut, clé en double et `..` ; espace associé à `./gitbook` avec un `.gitbook.yaml` à la racine | ✅ Toutes les erreurs détectées |
+| `./gradlew clean build` | ✅ BUILD SUCCESSFUL, 3 tests sur 3 |
+
+### Après la fusion : reprendre la configuration GitBook
+
+1. Dans Git Sync, sélectionner `Lysty01/StealASpawner`, branche `develop`, *Project directory* vide.
+2. GitBook doit maintenant trouver `gitbook-docs.yaml`. Choisir la synchronisation **GitHub → GitBook**.
+3. Vérifier qu'un espace « Official Wiki » apparaît, avec les 13 pages et la navigation du `SUMMARY.md`.
+4. Si GitBook propose d'enregistrer son propre *content mapping*, vérifier qu'il conserve la clé `space-official-wiki`. Changer cette clé ferait créer un nouvel espace.
+5. Me prévenir pour la vérification finale (une modification poussée sur GitHub doit apparaître dans GitBook).
