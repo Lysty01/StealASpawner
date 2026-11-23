@@ -15,3 +15,4 @@ Le format suit [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/) et le pr
 - Documentation : README, cahier des charges, roadmap, architecture, journal de développement.
 - Intégration continue GitHub Actions : compilation et tests sur chaque Pull Request.
 - Workflow Git `main` / `develop` / `feature/*` / `fix/*` et Conventional Commits.
+- Rapport de fin d'étape `docs/rapports/RAPPORT_PHASE_1.1.md`.

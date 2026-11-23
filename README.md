@@ -32,6 +32,7 @@ Le plugin est généré dans `build/libs/StealASpawner-<version>.jar`. Copiez-le
 - [Roadmap](docs/ROADMAP.md) : phases de développement
 - [Architecture](docs/ARCHITECTURE.md) : organisation du code
 - [Journal de développement](docs/DEVELOPMENT_LOG.md)
+- [Rapports de fin d'étape](docs/rapports/)
 - [Changelog](CHANGELOG.md)
 
 ## Workflow Git
@@ -49,3 +50,4 @@ Règles :
 - Toute modification passe par une Pull Request ; la CI GitHub Actions compile et teste automatiquement.
 - Jamais de `push --force`, jamais de secrets (tokens, mots de passe, IP privées) dans le dépôt.
 - Chaque étape met à jour `CHANGELOG.md`, `docs/ROADMAP.md` et `docs/DEVELOPMENT_LOG.md`.
+- Chaque étape se termine par un rapport complet dans [`docs/rapports/`](docs/rapports/) (`RAPPORT_PHASE_X.Y.md`).
