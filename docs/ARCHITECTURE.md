@@ -9,6 +9,9 @@ StealASpawner/
 ├── settings.gradle.kts
 ├── gradle.properties                 group + version du projet
 ├── gradlew, gradlew.bat, gradle/     Wrapper Gradle 9.9.2
+├── gradle/docs-check.gradle.kts      Tâche checkDocs (contrôle de la documentation)
+├── .gitbook.yaml                     Configuration GitBook Git Sync
+├── gitbook/                          Wiki officiel (anglais), voir docs/DOCUMENTATION.md
 ├── src/
 │   ├── main/
 │   │   ├── java/com/stealaspawner/

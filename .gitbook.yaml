@@ -1,0 +1,7 @@
+# GitBook Git Sync configuration
+# The official wiki lives in the gitbook/ folder of this repository.
+root: ./gitbook/
+
+structure:
+  readme: README.md
+  summary: SUMMARY.md
