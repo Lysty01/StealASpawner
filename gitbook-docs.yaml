@@ -1,0 +1,23 @@
+$schema: https://api.gitbook.com/gitbook-docs.yaml
+
+# GitBook site configuration (Git Sync).
+# Reference: https://gitbook.com/docs/docs-as-code/git-sync/content-configuration
+#
+# This file maps the site to the repository. The single space is mapped to the
+# repository root; the root .gitbook.yaml then sets the content root to ./gitbook/,
+# so GitBook reads gitbook/README.md and gitbook/SUMMARY.md.
+#
+# Do not change a `key` once the site is live: GitBook would create a new space.
+# To rename the wiki, change `title`; to change its URL, change `path`.
+
+site:
+  title: "Steal a Spawner — Official Wiki"
+  structure:
+    - type: space
+      key: space-official-wiki
+      title: "Official Wiki"
+      path: wiki
+      default: true
+      content:
+        directory: ./
+        language: en

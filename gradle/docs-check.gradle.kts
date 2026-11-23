@@ -2,7 +2,9 @@
 //
 // 1. Every local Markdown link and image in the repository points to an existing file.
 // 2. Every page listed in gitbook/SUMMARY.md exists, and every page in gitbook/ is listed in it.
-// 3. .gitbook.yaml points to an existing root, readme and summary.
+// 3. GitBook Git Sync configuration is consistent, resolved the way GitBook does it:
+//    gitbook-docs.yaml (site) -> space content.directory -> <directory>/.gitbook.yaml (root, readme, summary).
+//    Full schema validation against https://api.gitbook.com/gitbook-docs.yaml is done by GitBook on import.
 // 4. Every command and permission declared in plugin.yml is documented in the GitBook.
 
 val docsRoot = layout.projectDirectory.asFile
@@ -13,7 +15,7 @@ tasks.register("checkDocs") {
 
     inputs.files(
         fileTree(docsRoot) {
-            include("**/*.md", ".gitbook.yaml", "src/main/resources/plugin.yml")
+            include("**/*.md", "**/.gitbook.yaml", "gitbook-docs.yaml", "src/main/resources/plugin.yml")
             exclude("build/**", ".gradle/**", ".git/**", "run/**")
         }
     )
@@ -53,17 +55,55 @@ tasks.register("checkDocs") {
         }
 
         // 2 & 3. GitBook configuration and summary
-        val gitbookConfig = docsRoot.resolve(".gitbook.yaml")
-        var gitbookDir = docsRoot.resolve("gitbook")
+        fun yamlValue(raw: String) = raw.substringBefore(" #").trim().trim('"', '\'')
+
+        // 3a. Site configuration: gitbook-docs.yaml at the Git Sync project directory (repository root)
+        val siteConfig = docsRoot.resolve("gitbook-docs.yaml")
+        var spaceDirectory = docsRoot
+        if (!siteConfig.exists()) {
+            errors += "Missing gitbook-docs.yaml (GitBook site configuration)"
+        } else {
+            val text = siteConfig.readText()
+            if (!Regex("""(?m)^\${'$'}schema:\s*https://api\.gitbook\.com/gitbook-docs\.yaml\s*$""").containsMatchIn(text)) {
+                errors += "gitbook-docs.yaml: missing \$schema: https://api.gitbook.com/gitbook-docs.yaml"
+            }
+            if (!Regex("""(?m)^site:\s*$""").containsMatchIn(text)) errors += "gitbook-docs.yaml: missing site"
+            if (!Regex("""(?m)^\s+title:\s*\S""").containsMatchIn(text)) errors += "gitbook-docs.yaml: missing site.title"
+            if (!Regex("""(?m)^\s+structure:\s*$""").containsMatchIn(text)) errors += "gitbook-docs.yaml: missing site.structure"
+
+            val keys = Regex("""(?m)^\s+(?:-\s+)?key:\s*(.+)$""").findAll(text).map { yamlValue(it.groupValues[1]) }.toList()
+            keys.groupingBy { it }.eachCount().filter { it.value > 1 }.keys.forEach {
+                errors += "gitbook-docs.yaml: duplicate key '$it'"
+            }
+            if (!Regex("""(?m)^\s+default:\s*true\s*$""").containsMatchIn(text)) {
+                errors += "gitbook-docs.yaml: no space marked default: true"
+            }
+
+            val directories = Regex("""(?m)^\s+directory:\s*(.+)$""").findAll(text).map { yamlValue(it.groupValues[1]) }
+                .filter { it != "null" && it != "~" }.toList()
+            if (directories.isEmpty()) errors += "gitbook-docs.yaml: no space with a content.directory"
+            directories.forEach { dir ->
+                if (dir.split('/').contains("..")) errors += "gitbook-docs.yaml: '..' is not allowed in directory '$dir'"
+                val resolved = docsRoot.resolve(dir.removePrefix("/").ifEmpty { "." }).normalize()
+                if (!resolved.isDirectory) errors += "gitbook-docs.yaml: space directory not found: $dir"
+            }
+            directories.firstOrNull()?.let { spaceDirectory = docsRoot.resolve(it.removePrefix("/").ifEmpty { "." }).normalize() }
+        }
+
+        // 3b. Space configuration: <space directory>/.gitbook.yaml (optional, GitBook defaults otherwise)
+        var gitbookDir = spaceDirectory
         var summaryName = "SUMMARY.md"
         var readmeName = "README.md"
-        if (gitbookConfig.exists()) {
-            val text = gitbookConfig.readText()
-            Regex("""(?m)^root:\s*(\S+)""").find(text)?.let { gitbookDir = docsRoot.resolve(it.groupValues[1]).normalize() }
-            Regex("""(?m)^\s+summary:\s*(\S+)""").find(text)?.let { summaryName = it.groupValues[1] }
-            Regex("""(?m)^\s+readme:\s*(\S+)""").find(text)?.let { readmeName = it.groupValues[1] }
-        } else {
-            errors += "Missing .gitbook.yaml"
+        val spaceConfig = spaceDirectory.resolve(".gitbook.yaml")
+        if (spaceConfig.exists()) {
+            val text = spaceConfig.readText()
+            Regex("""(?m)^root:\s*(.+)$""").find(text)?.let { gitbookDir = spaceDirectory.resolve(yamlValue(it.groupValues[1])).normalize() }
+            Regex("""(?m)^\s+summary:\s*(.+)$""").find(text)?.let { summaryName = yamlValue(it.groupValues[1]) }
+            Regex("""(?m)^\s+readme:\s*(.+)$""").find(text)?.let { readmeName = yamlValue(it.groupValues[1]) }
+        }
+        val strayConfig = docsRoot.resolve(".gitbook.yaml")
+        if (strayConfig.exists() && strayConfig.normalize() != spaceConfig.normalize()) {
+            errors += "${rel(strayConfig)} is ignored by GitBook: the space is mapped to ${rel(spaceDirectory).ifEmpty { "./" }}"
         }
 
         val summary = gitbookDir.resolve(summaryName)

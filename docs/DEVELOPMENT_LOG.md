@@ -76,3 +76,34 @@ Créer le wiki officiel *Steal a Spawner — Official Wiki* (anglais), synchroni
 
 - Python absent du poste : le contrôle des liens a été écrit en Kotlin (tâche Gradle), ce qui évite toute dépendance supplémentaire en local comme en CI.
 - Le wiki n'est **pas publié** : la connexion GitBook ↔ GitHub doit être faite par le responsable du projet depuis son compte GitBook.
+
+---
+
+## 2026-11-23 — Correctif : synchronisation GitBook
+
+**Branche :** `fix/gitbook-sync` (depuis `develop`, après fusion de la PR #2)
+
+### Problème
+
+Git Sync (app.gitbook.com) reconnaissait le dépôt et la branche `develop`, mais affichait `gitbook-docs.yaml does not exist on this branch.`
+
+### Analyse
+
+- Documentation officielle *Content configuration* et schéma `https://api.gitbook.com/gitbook-docs.yaml` consultés : Git Sync utilise désormais `gitbook-docs.yaml` (site → espaces → dossiers), puis `.gitbook.yaml` (configuration d'un espace), puis `SUMMARY.md`.
+- Un espace peut être placé directement à la racine de `site.structure` (site sans section), avec un seul espace `default: true`.
+
+### Réalisé
+
+- `gitbook-docs.yaml` : site « Steal a Spawner — Official Wiki », espace `space-official-wiki` associé à `./`. Le `.gitbook.yaml` existant (`root: ./gitbook/`) s'applique sans modification.
+- `checkDocs` : résolution identique à celle de GitBook et contrôles de cohérence de `gitbook-docs.yaml`.
+- `docs/DOCUMENTATION.md`, `docs/ARCHITECTURE.md`, `CHANGELOG.md` et le rapport GitBook (§ 13) mis à jour.
+
+### Vérifications
+
+- `gitbook-docs.yaml` **valide** contre le schéma officiel (validateur JSON Schema 2020-12, projet jetable hors dépôt) ; deux contre-exemples rejetés.
+- Tests négatifs de `checkDocs` : 4 scénarios, toutes les erreurs détectées.
+- `./gradlew clean build` : BUILD SUCCESSFUL, 3 tests sur 3. Aucune page, aucun lien et aucun code Java modifiés.
+
+### Problèmes rencontrés
+
+- Ni Python ni Node.js sur le poste pour valider le schéma : validation faite avec une bibliothèque Java dans un projet temporaire, sans ajouter de dépendance au projet.

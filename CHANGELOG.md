@@ -6,6 +6,11 @@ Le format suit [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/) et le pr
 
 ## [Non publié]
 
+### Corrigé — Synchronisation GitBook
+
+- GitBook Git Sync refusait la branche `develop` : `gitbook-docs.yaml does not exist on this branch.` Ajout de `gitbook-docs.yaml` (configuration du site, validée contre le schéma officiel `https://api.gitbook.com/gitbook-docs.yaml`) : un espace « Official Wiki » associé à la racine du dépôt, où `.gitbook.yaml` pointe déjà vers `gitbook/`. Pages, `SUMMARY.md` et liens inchangés.
+- `checkDocs` suit désormais la même résolution que GitBook (`gitbook-docs.yaml` → dossier de l'espace → `.gitbook.yaml` → `SUMMARY.md`) et vérifie la cohérence de `gitbook-docs.yaml`.
+
 ### Ajouté — Documentation GitBook
 
 - Wiki officiel **Steal a Spawner — Official Wiki** en anglais dans `gitbook/` (13 pages : accueil, démarrage, installation, état des fonctionnalités, économie, spawners, collecteurs, factions, pillage, commandes, permissions, administration, changelog).
