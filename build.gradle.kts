@@ -41,3 +41,5 @@ tasks.processResources {
 tasks.test {
     useJUnitPlatform()
 }
+
+apply(from = "gradle/docs-check.gradle.kts")

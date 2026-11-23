@@ -6,6 +6,13 @@ Le format suit [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/) et le pr
 
 ## [Non publié]
 
+### Ajouté — Documentation GitBook
+
+- Wiki officiel **Steal a Spawner — Official Wiki** en anglais dans `gitbook/` (13 pages : accueil, démarrage, installation, état des fonctionnalités, économie, spawners, collecteurs, factions, pillage, commandes, permissions, administration, changelog).
+- `.gitbook.yaml` pour la synchronisation GitBook ↔ GitHub (Git Sync).
+- Tâche Gradle `checkDocs`, exécutée par `./gradlew build` et par la CI : liens Markdown locaux, pages manquantes du `SUMMARY.md`, commandes et permissions de `plugin.yml` non documentées.
+- Règles de maintenance de la documentation (`docs/DOCUMENTATION.md`) et modèle de fiche commande (`docs/templates/COMMAND_TEMPLATE.md`).
+
 ### Ajouté — Phase 1.1 : initialisation du projet
 
 - Projet Gradle (Kotlin DSL, wrapper 9.9.2) ciblant Paper 1.21.11 et Java 21.

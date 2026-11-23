@@ -28,6 +28,8 @@ Le plugin est généré dans `build/libs/StealASpawner-<version>.jar`. Copiez-le
 
 ## Documentation
 
+**Wiki utilisateur (anglais)** : [Steal a Spawner — Official Wiki](gitbook/README.md), synchronisé avec GitBook. Règles de maintenance : [docs/DOCUMENTATION.md](docs/DOCUMENTATION.md).
+
 - [Cahier des charges](docs/CAHIER_DES_CHARGES.md) : règles officielles du jeu
 - [Roadmap](docs/ROADMAP.md) : phases de développement
 - [Architecture](docs/ARCHITECTURE.md) : organisation du code
@@ -50,4 +52,5 @@ Règles :
 - Toute modification passe par une Pull Request ; la CI GitHub Actions compile et teste automatiquement.
 - Jamais de `push --force`, jamais de secrets (tokens, mots de passe, IP privées) dans le dépôt.
 - Chaque étape met à jour `CHANGELOG.md`, `docs/ROADMAP.md` et `docs/DEVELOPMENT_LOG.md`.
+- Toute modification d'une commande, d'une permission ou d'une mécanique met à jour le wiki GitBook dans la même Pull Request ; `./gradlew build` vérifie la documentation (`checkDocs`).
 - Chaque étape se termine par un rapport complet dans [`docs/rapports/`](docs/rapports/) (`RAPPORT_PHASE_X.Y.md`).

@@ -47,3 +47,32 @@ Créer le squelette du plugin Paper 1.21.11, la documentation, le workflow Git e
 - Lors du test serveur, les accents des logs s'affichaient mal (`activ�`) dans la console Windows redirigée : il s'agit d'un problème d'encodage de la console, pas du plugin. À surveiller selon l'hébergeur (lancer Java avec `-Dstdout.encoding=UTF-8` au besoin).
 - **CI en échec sur la Pull Request #1** : `./gradlew: Permission denied` (code 126). Cause : le dépôt a été créé sous Windows, où Git ignore les permissions (`core.filemode=false`) ; `gradlew` a donc été enregistré en mode `100644` (non exécutable) et le runner Linux de GitHub Actions refusait de l'exécuter. Correction : `git update-index --chmod=+x gradlew` (mode `100755` vérifié avec `git ls-files -s`) et ajout d'une étape `chmod +x ./gradlew` dans le workflow, par sécurité. Aucun code Java modifié.
 - Paper signale que 1.21.11 a 6 versions de retard sur la dernière stable (26.3). La cible 1.21.11 reste celle définie par le cahier des charges.
+
+---
+
+## 2026-11-23 — Documentation GitBook : structure initiale
+
+**Branche :** `docs/gitbook-init` (depuis `develop`, après fusion de la PR #1)
+
+### Objectif
+
+Créer le wiki officiel *Steal a Spawner — Official Wiki* (anglais), synchronisable avec GitHub, documentant uniquement ce qui existe réellement, et mettre en place un contrôle automatique de la documentation. Aucun code Java modifié.
+
+### Réalisé
+
+- Dossier `gitbook/` : 13 pages + `SUMMARY.md`, réparties dans les 11 sections demandées.
+- `.gitbook.yaml` (racine `./gitbook/`) pour GitBook Git Sync.
+- État réel documenté : le plugin démarre et s'arrête, **aucune commande, aucune permission, aucun fichier de configuration**. Les mécaniques du cahier des charges sont marquées 🛠️ **Planned** ; les factions sont signalées comme non spécifiées.
+- Conventions visuelles : ✅ Available / 🛠️ Planned, 🟢 Player / 🟣 Premium / 🔴 Admin, encadrés GitBook, commandes en blocs de code.
+- Tâche Gradle `checkDocs` branchée sur `check` (donc exécutée par la CI existante).
+- `docs/DOCUMENTATION.md` (règles de maintenance) et `docs/templates/COMMAND_TEMPLATE.md`.
+
+### Vérifications
+
+- `./gradlew checkDocs` : 21 fichiers Markdown, 66 liens locaux, 13 pages GitBook, 0 commande, 0 permission → OK.
+- Test négatif : un lien cassé, une page hors `SUMMARY.md`, une commande et une permission non documentées ajoutés temporairement → les 4 problèmes sont détectés et le build échoue. Fichiers de test retirés ensuite.
+
+### Problèmes rencontrés
+
+- Python absent du poste : le contrôle des liens a été écrit en Kotlin (tâche Gradle), ce qui évite toute dépendance supplémentaire en local comme en CI.
+- Le wiki n'est **pas publié** : la connexion GitBook ↔ GitHub doit être faite par le responsable du projet depuis son compte GitBook.
