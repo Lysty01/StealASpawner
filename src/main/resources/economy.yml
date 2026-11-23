@@ -1,0 +1,13 @@
+# ---------------------------------------------------------------------------
+#  Steal a Spawner - Economy (RESERVED)
+#
+#  The economy is NOT implemented yet. This file is reserved for it and
+#  contains no gameplay setting. Settings will be added, and documented, when
+#  the feature is released. Keys added here are ignored (with a warning).
+#
+#  Official rule (fixed by the project specification, not configurable):
+#    - 100% of a player's accumulated money can be stolen.
+# ---------------------------------------------------------------------------
+
+# Format version of this file. Do not change it.
+config-version: 1

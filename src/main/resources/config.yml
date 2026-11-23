@@ -1,0 +1,32 @@
+# ---------------------------------------------------------------------------
+#  Steal a Spawner - General settings
+#  Documentation: https://github.com/Lysty01/StealASpawner/blob/develop/gitbook/administration/configuration.md
+#
+#  Edit this file, then run /sas reload (or restart the server).
+#  An invalid file is never replaced: the plugin reports the error and keeps
+#  the previous configuration (on reload) or refuses to start (at startup).
+# ---------------------------------------------------------------------------
+
+# Format version of this file. Do not change it.
+config-version: 1
+
+general:
+  # Text shown before every message the plugin sends to players and the console.
+  # MiniMessage format (https://docs.advntr.dev/minimessage/format.html).
+  # Use "" to disable the prefix.
+  prefix: "<dark_gray>[<gradient:#c084fc:#7c3aed>StealASpawner</gradient>]</dark_gray> "
+
+  # Language of the plugin messages. Supported values: en
+  # Must match the "language" value of messages.yml.
+  language: en
+
+logging:
+  # Plugin messages written to the server console:
+  #   WARNING - only warnings and errors
+  #   INFO    - normal operation messages (recommended)
+  #   DEBUG   - INFO + detailed diagnostic messages prefixed with [DEBUG]
+  level: INFO
+
+diagnostics:
+  # Log a one-line summary of the loaded configuration at startup and after each reload.
+  startup-summary: true

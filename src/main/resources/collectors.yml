@@ -1,0 +1,13 @@
+# ---------------------------------------------------------------------------
+#  Steal a Spawner - Collectors (RESERVED)
+#
+#  Collectors are NOT implemented yet. This file is reserved for them and
+#  contains no gameplay setting. Settings will be added, and documented, when
+#  the feature is released. Keys added here are ignored (with a warning).
+#
+#  Official rule (fixed by the project specification, not configurable):
+#    - Collectors, and the money they contain, can be stolen.
+# ---------------------------------------------------------------------------
+
+# Format version of this file. Do not change it.
+config-version: 1
