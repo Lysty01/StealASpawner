@@ -7,7 +7,7 @@
 | **Date** | 23/11/2026 |
 | **Version du plugin** | `0.1.0-SNAPSHOT` (inchangée) |
 | **Branche** | `docs/gitbook-init` (depuis `develop`) |
-| **Pull Request** | Vers `develop`, voir § 8 |
+| **Pull Request** | ⚠️ À créer vers `develop` (GitHub non connecté sur le poste), voir § 8 |
 | **Statut** | ✅ Terminée — ⏳ en attente de validation |
 | **Wiki publié** | ❌ Non : connexion GitBook ↔ GitHub à configurer (§ 9) |
 
@@ -139,7 +139,8 @@ Tests unitaires : 3 réussis, 0 échec.
 |---|---|
 | Branche | `docs/gitbook-init`, créée depuis `develop` (`1709004`, fusion de la PR #1) |
 | Commit | `docs: add initial GitBook wiki and documentation checks` |
-| Pull Request | `docs/gitbook-init` → `develop` (non fusionnée) |
+| Pull Request | ⚠️ Non créée automatiquement : ni `gh` ni le navigateur intégré ne sont connectés à GitHub. À créer ici : https://github.com/Lysty01/StealASpawner/compare/develop...docs/gitbook-init |
+| CI | Se lancera à l'ouverture de la PR (le workflow s'exécute sur les PR vers `develop`/`main`) ; validation locale effectuée |
 | Force push | Aucun |
 
 ---
