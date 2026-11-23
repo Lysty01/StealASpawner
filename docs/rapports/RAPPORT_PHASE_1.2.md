@@ -7,7 +7,7 @@
 | **Date** | 23/11/2026 |
 | **Version** | `0.1.0-SNAPSHOT` (inchangée, aucune release) |
 | **Branche** | `feature/phase-1.2-config` (depuis `develop`, `e3e100e`) |
-| **Pull Request** | Voir § 14 |
+| **Pull Request** | [#4](https://github.com/Lysty01/StealASpawner/pull/4) vers `develop` (non fusionnée) |
 | **Statut** | ✅ Terminée — ⏳ en attente de validation |
 
 ---
@@ -280,8 +280,8 @@ Le build et les tests ont été vérifiés à l'état de chaque commit de code.
 |---|---|
 | Source → destination | `feature/phase-1.2-config` → `develop` |
 | Titre | `feat: Phase 1.2 - YAML configuration management` |
-| Lien | Ajouté après création (voir le commit suivant) |
-| CI GitHub Actions | À la création de la PR |
+| Lien | [#4](https://github.com/Lysty01/StealASpawner/pull/4) |
+| CI GitHub Actions | Workflow *Build & Test* (compilation, 47 tests, `checkDocs`) exécuté sur la PR |
 | Fusion | ❌ Non fusionnée : en attente de validation |
 
 ## 15. Éléments restant à valider
