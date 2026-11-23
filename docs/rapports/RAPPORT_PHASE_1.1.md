@@ -178,6 +178,7 @@ Aucune erreur ni aucun avertissement liés au plugin.
 | 4 | `gh` (GitHub CLI) non connecté : impossible de créer la Pull Request automatiquement. | ⚠️ À faire manuellement, voir § 10. |
 | 5 | Accents mal affichés dans la console Windows redirigée (`activ�`). | Problème d'encodage de la console, pas du plugin. Option `-Dstdout.encoding=UTF-8` si nécessaire chez l'hébergeur. ℹ️ À surveiller |
 | 6 | Paper signale que 1.21.11 a 6 versions de retard sur la dernière stable (26.3). | Cible 1.21.11 conservée conformément au cahier des charges. ℹ️ Décision à confirmer |
+| 7 | La CI de la Pull Request #1 échouait : `./gradlew: Permission denied` (code 126). Le dépôt créé sous Windows (`core.filemode=false`) avait enregistré `gradlew` en mode `100644`. | `git update-index --chmod=+x gradlew` (mode `100755` vérifié) + étape `chmod +x ./gradlew` dans le workflow. Aucun code Java modifié. ✅ Résolu (voir § 11) |
 
 ---
 
@@ -190,6 +191,20 @@ Aucune erreur ni aucun avertissement liés au plugin.
 4. *(Optionnel)* Lancer `gh auth login` pour que les prochaines Pull Requests soient créées automatiquement.
 5. **Confirmer la version cible** de Minecraft (1.21.11 ou plus récente).
 6. Envoyer les instructions de la **phase suivante**.
+
+---
+
+## 11. Correctif CI (Pull Request #1)
+
+| Élément | Détail |
+|---|---|
+| Symptôme | `Run ./gradlew build --console=plain` → `./gradlew: Permission denied`, code de sortie 126 |
+| Cause | Bit exécutable absent : `gradlew` enregistré en `100644` car Git sous Windows ignore les permissions |
+| Correction 1 | `git update-index --chmod=+x gradlew` → `git ls-files -s gradlew` affiche `100755` |
+| Correction 2 | Étape `chmod +x ./gradlew` ajoutée dans `.github/workflows/build.yml` avant la compilation |
+| Code Java | Non modifié |
+| Commit | `fix(ci): correct Gradle wrapper execution permissions` |
+| Vérification locale | `./gradlew clean build` : BUILD SUCCESSFUL, 3 tests réussis |
 
 ---
 

@@ -31,6 +31,9 @@ jobs:
       - name: Configurer Gradle
         uses: gradle/actions/setup-gradle@v6
 
+      - name: Rendre le wrapper Gradle exécutable
+        run: chmod +x ./gradlew
+
       - name: Compiler et tester
         run: ./gradlew build --console=plain
 
