@@ -7,8 +7,9 @@ Légende : ✅ terminé · 🔄 en cours / en attente de validation · ⏳ à ve
 | Étape | Contenu | Statut |
 |---|---|---|
 | 1.1 | Initialisation : projet Gradle, classe principale, documentation, workflow Git, CI | ✅ Fusionnée dans `develop` (PR #1) |
-| Docs | Wiki GitBook officiel (structure initiale) et contrôle automatique de la documentation | 🔄 En attente de validation |
-| 1.x | Étapes suivantes à définir par le responsable du projet | ⏳ |
+| Docs | Wiki GitBook officiel (structure initiale) et contrôle automatique de la documentation | ✅ Fusionnée dans `develop` (PR #2, #3) |
+| 1.2 | Gestion de la configuration YAML : chargement, validation stricte, reload transactionnel, messages, `/sas reload` | 🔄 En attente de validation |
+| 1.3+ | Étapes suivantes à définir par le responsable du projet | ⏳ |
 
 ## Phases ultérieures (périmètre indicatif, non planifié)
 

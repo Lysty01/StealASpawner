@@ -1,0 +1,14 @@
+# ---------------------------------------------------------------------------
+#  Steal a Spawner - Spawners (RESERVED)
+#
+#  The spawner system is NOT implemented yet. This file is reserved for it and
+#  contains no gameplay setting. Settings will be added, and documented, when
+#  the feature is released. Keys added here are ignored (with a warning).
+#
+#  Official rules (fixed by the project specification, not configurable):
+#    - Spawners keep producing while their owner is offline, with no limit.
+#    - A stolen spawner keeps its level and upgrades.
+# ---------------------------------------------------------------------------
+
+# Format version of this file. Do not change it.
+config-version: 1

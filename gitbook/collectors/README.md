@@ -15,6 +15,10 @@ description: Where your money is stored, and why you need to protect it.
 | 📦 **Money storage** | Collectors store the money produced by spawners. |
 | 🦝 **Collectors can be stolen** | A collector, and the money inside it, can be stolen by another player. |
 
+## Configuration
+
+`collectors.yml` is created in `plugins/StealASpawner/` but is **reserved**: it contains no setting yet. See [Reserved Files](../administration/reserved-files.md).
+
 ## Related pages
 
 * [Economy](../economy/README.md)

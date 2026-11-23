@@ -16,6 +16,10 @@ description: How spawners work, level up and change owners.
 | ♾️ **Offline production** | Production continues while the owner is offline, with no limit. |
 | ⬆️ **Levels are kept when stolen** | A stolen spawner keeps its level and upgrades for its new owner. |
 
+## Configuration
+
+`spawners.yml` is created in `plugins/StealASpawner/` but is **reserved**: it contains no setting yet. See [Reserved Files](../administration/reserved-files.md).
+
 ## Related pages
 
 * [Economy](../economy/README.md)

@@ -1,0 +1,39 @@
+# ---------------------------------------------------------------------------
+#  Steal a Spawner - Messages
+#  Documentation: https://github.com/Lysty01/StealASpawner/blob/develop/gitbook/administration/messages.md
+#
+#  Messages use the MiniMessage format: https://docs.advntr.dev/minimessage/format.html
+#  Placeholders such as <label> are filled by the plugin. Their values are always
+#  displayed as plain text and can never add colors, clicks or other formatting.
+#  The prefix defined in config.yml is added before chat messages.
+# ---------------------------------------------------------------------------
+
+# Format version of this file. Do not change it.
+config-version: 1
+
+# Language of this file. Must match general.language in config.yml.
+language: en
+
+plugin:
+  # Written to the console when the plugin starts. Placeholders: <version>
+  enabled: "StealASpawner <version> enabled."
+
+command:
+  # /sas without arguments. Placeholders: <label>
+  usage: "<gray>Usage: <white>/<label> reload</white>"
+  # The sender lacks the required permission.
+  no-permission: "<red>You don't have permission to use this command."
+  # Unknown sub-command. Placeholders: <subcommand>, <label>
+  unknown-subcommand: "<red>Unknown subcommand: <white><subcommand></white>. <gray>Usage: <white>/<label> reload</white>"
+  # Too many or wrong arguments. Placeholders: <usage>
+  invalid-syntax: "<red>Invalid syntax. <gray>Usage: <white><usage></white>"
+
+reload:
+  # Placeholders: <files>, <duration> (milliseconds)
+  success: "<green>Configuration reloaded (<files> files, <duration> ms)."
+  # Placeholders: <errors>
+  failure: "<red>Reload failed: <errors> error(s). The previous configuration is still active. <gray>See the server console for details."
+
+error:
+  # Unexpected error. Technical details are written to the server console only.
+  internal: "<red>An internal error occurred. <gray>See the server console for details."

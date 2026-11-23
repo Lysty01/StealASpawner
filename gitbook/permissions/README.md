@@ -4,16 +4,17 @@ description: Every permission node, its default value and the recommended rank.
 
 # Permissions & Ranks
 
-{% hint style="info" %}
-**Version `0.1.0-SNAPSHOT` has no permissions.**
-The plugin does not declare or check any permission yet (its `plugin.yml` declares none). Permission nodes will be added to this page as soon as they exist in the code — never before.
-{% endhint %}
-
 ## Permission list
 
 | Permission | Function | Default | Recommended rank | Commands | Risk |
 |---|---|---|---|---|---|
-| *No permissions yet* | — | — | — | — | — |
+| `stealaspawner.admin.reload` | Reload the plugin configuration files | `op` | 🔴 Admin | [`/sas reload`](../commands/sas-reload.md) | Low. Allows applying configuration changes, including the messages every player sees. A broken file is rejected and the previous configuration is kept, so it cannot break the plugin. Give it only to staff who are allowed to edit the configuration. |
+
+The console always has every permission.
+
+{% hint style="info" %}
+Only permissions that exist in the plugin are listed here. New permissions are added in the same release as the feature that uses them.
+{% endhint %}
 
 ### Column guide
 
@@ -28,14 +29,26 @@ The plugin does not declare or check any permission yet (its `plugin.yml` declar
 
 ## Ranks
 
-Planned ranks used across this wiki:
+Ranks used across this wiki:
 
-| Rank | Audience |
-|---|---|
-| 🟢 **Player** | Every player on the server |
-| 🟣 **Premium** | Players with a premium rank |
-| 🔴 **Admin** | Staff and server administrators |
+| Rank | Audience | Permissions today |
+|---|---|---|
+| 🟢 **Player** | Every player on the server | None |
+| 🟣 **Premium** | Players with a premium rank | None |
+| 🔴 **Admin** | Staff and server administrators | `stealaspawner.admin.reload` |
 
 ## LuckPerms
 
-LuckPerms support is 🛠️ **Planned**. Today, Steal a Spawner only declares LuckPerms as an optional dependency, so LuckPerms (if installed) is loaded first. Ready-to-use LuckPerms commands for each rank will be provided here once permissions exist.
+Steal a Spawner uses standard Bukkit permissions, so any permission plugin works. With [LuckPerms](https://luckperms.net/), give the reload permission to an `admin` group:
+
+```
+lp group admin permission set stealaspawner.admin.reload true
+```
+
+To a single player:
+
+```
+lp user <player> permission set stealaspawner.admin.reload true
+```
+
+A deeper LuckPerms integration (contexts, meta) is 🛠️ **Planned**.

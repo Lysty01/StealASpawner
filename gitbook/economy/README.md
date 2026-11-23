@@ -15,6 +15,10 @@ description: How money is produced, stored and spent.
 | ♾️ **Unlimited offline production** | Spawners keep producing money while their owner is offline. There is no cap on duration or amount. |
 | 💰 **All money can be stolen** | Up to **100%** of a player's unprotected money can be taken by raiders. No share is protected by default. |
 
+## Configuration
+
+`economy.yml` is created in `plugins/StealASpawner/` but is **reserved**: it contains no setting yet. See [Reserved Files](../administration/reserved-files.md).
+
 ## Related pages
 
 * [Spawners](../spawners/README.md) — the source of all income
