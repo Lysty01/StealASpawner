@@ -6,3 +6,14 @@ description: Mini-jeu Steal a Spawner - production de spawners et vol entre joue
 authors: [Lysty01]
 website: https://github.com/Lysty01/StealASpawner
 softdepend: [LuckPerms, Oraxen]
+
+commands:
+  stealaspawner:
+    description: Steal a Spawner administration command.
+    usage: /<command> reload
+    aliases: [sas]
+
+permissions:
+  stealaspawner.admin.reload:
+    description: Allows reloading the plugin configuration with /sas reload.
+    default: op

@@ -10,7 +10,7 @@ Steal a Spawner is a multiplayer Minecraft minigame for **Paper 1.21.11** server
 
 {% hint style="warning" %}
 **Early development — version `0.1.0-SNAPSHOT`.**
-The plugin currently installs, starts and stops cleanly, but **no gameplay feature is available yet**. Pages marked 🛠️ **Planned** describe the official design, not something you can use today. See [Feature Status](getting-started/feature-status.md).
+The plugin currently provides its [configuration system](administration/configuration.md) and the [`/sas reload`](commands/sas-reload.md) admin command, but **no gameplay feature is available yet**. Pages marked 🛠️ **Planned** describe the official design, not something you can use today. See [Feature Status](getting-started/feature-status.md).
 {% endhint %}
 
 ## Quick links
@@ -20,6 +20,7 @@ The plugin currently installs, starts and stops cleanly, but **no gameplay featu
 | 🚀 | [Introduction](getting-started/README.md) | What the game is about |
 | 📦 | [Installation](getting-started/installation.md) | Install the plugin on a Paper server |
 | 📊 | [Feature Status](getting-started/feature-status.md) | What is available and what is planned |
+| ⚙️ | [Configuration](administration/configuration.md) | Configuration files and every setting |
 | ⌨️ | [Commands](commands/README.md) | Every command, with syntax and examples |
 | 🔑 | [Permissions & Ranks](permissions/README.md) | Every permission node and recommended rank |
 | 🛡️ | [Administration](administration/README.md) | Running and maintaining the plugin |

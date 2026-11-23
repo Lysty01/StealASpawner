@@ -4,20 +4,23 @@ description: Every Steal a Spawner command, with syntax, permissions and example
 
 # Commands
 
-{% hint style="info" %}
-**Version `0.1.0-SNAPSHOT` has no commands.**
-The plugin does not register any command yet (its `plugin.yml` declares none). Commands will be added to this page as soon as they are implemented — never before.
-{% endhint %}
+The main command is `/stealaspawner`, with the shorter alias `/sas`. Both work everywhere in this wiki.
 
 ## Command list
 
 | Command | Audience | Description | Permission | Since |
 |---|---|---|---|---|
-| *No commands yet* | — | — | — | — |
+| [`/sas reload`](sas-reload.md) | 🔴 Admin | Reloads the configuration files without restarting | `stealaspawner.admin.reload` | 0.1.0-SNAPSHOT |
+
+`/sas` without arguments shows the usage to senders who can use a sub-command, and the *no permission* message to everyone else.
+
+{% hint style="info" %}
+Only commands that are implemented are listed here. Player commands for spawners, the economy, collectors and raiding will be added when those features are released.
+{% endhint %}
 
 ## How commands are documented
 
-When a command is released, it gets its own page in this section, listed in the table above and in the navigation. Every command page contains:
+Every command has its own page, listed in the table above and in the navigation. Every command page contains:
 
 | Section | Content |
 |---|---|
@@ -43,6 +46,8 @@ When a command is released, it gets its own page in this section, listed in the 
 | `[argument]` | Optional argument |
 | `a\|b` | Choose one of the values |
 
+In the server console, type commands without the leading `/`.
+
 ## Built-in Paper commands
 
 These commands come with Paper, not with Steal a Spawner. They are useful to check that the plugin is installed:
@@ -51,3 +56,7 @@ These commands come with Paper, not with Steal a Spawner. They are useful to che
 |---|---|
 | `/plugins` | Lists installed plugins. `StealASpawner` should appear in green. |
 | `/version StealASpawner` | Shows the installed plugin version. |
+
+{% hint style="danger" %}
+Do not use Paper's `/reload` command. To apply configuration changes, use [`/sas reload`](sas-reload.md); to update the plugin, restart the server.
+{% endhint %}

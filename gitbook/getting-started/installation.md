@@ -47,12 +47,17 @@ Every pull request is built by GitHub Actions. Open a successful **Build & Test*
 
 ## Check the installation
 
-In the server console you should see:
+On the first start, the plugin creates its configuration files. In the server console you should see:
 
 ```
-[StealASpawner] Loading server plugin StealASpawner v0.1.0-SNAPSHOT
 [StealASpawner] Enabling StealASpawner v0.1.0-SNAPSHOT
-[StealASpawner] StealASpawner v0.1.0-SNAPSHOT activé.
+[StealASpawner] Created default config.yml
+[StealASpawner] Created default messages.yml
+[StealASpawner] Created default spawners.yml
+[StealASpawner] Created default economy.yml
+[StealASpawner] Created default collectors.yml
+[StealASpawner] Configuration loaded: 5 files, language=en, log level=INFO (12 ms).
+[StealASpawner] StealASpawner 0.1.0-SNAPSHOT enabled.
 ```
 
 Run the Paper command below in the console. `StealASpawner` must be listed in green:
@@ -65,13 +70,13 @@ When the server stops, you should see:
 
 ```
 [StealASpawner] Disabling StealASpawner v0.1.0-SNAPSHOT
-[StealASpawner] StealASpawner désactivé.
+[StealASpawner] StealASpawner disabled.
 ```
 
-{% hint style="info" %}
-The current log messages are in French. If accents look broken in your console (for example `activ�`), see [Administration › Troubleshooting](../administration/README.md#troubleshooting).
+{% hint style="warning" %}
+If you see `StealASpawner cannot start: N configuration error(s)`, a configuration file is invalid. The errors are listed just above that line. See [Troubleshooting](../administration/troubleshooting.md).
 {% endhint %}
 
 ## Configuration
 
-Version `0.1.0-SNAPSHOT` has **no configuration file** and creates no data folder.
+The configuration is in `plugins/StealASpawner/`. The defaults work out of the box. To customize the prefix, the messages or the console log level, see [Configuration](../administration/configuration.md), then apply your changes with [`/sas reload`](../commands/sas-reload.md).

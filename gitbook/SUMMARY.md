@@ -19,11 +19,16 @@
 ## Reference
 
 * [Commands](commands/README.md)
+  * [/sas reload](commands/sas-reload.md)
 * [Permissions & Ranks](permissions/README.md)
 
 ## Server Owners
 
 * [Administration](administration/README.md)
+  * [Configuration](administration/configuration.md)
+  * [Messages](administration/messages.md)
+  * [Reserved Files](administration/reserved-files.md)
+  * [Troubleshooting](administration/troubleshooting.md)
 
 ## Updates
 
